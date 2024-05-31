@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sazondelbueno.web.Dto.AccountResponse;
 import sazondelbueno.web.Model.Account;
 import sazondelbueno.web.Service.AccountService;
 import sazondelbueno.web.Service.AccountServiceImpl;
@@ -61,12 +62,19 @@ public class AccountController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(service.updateById(id, account), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<AccountResponse> updateAccount(@RequestBody Account account, @PathVariable Long id) {
+
+        AccountResponse accountResponse= service.updateById(id,account);
+
+        if (accountResponse.getStatus()){
+            return new ResponseEntity<>(accountResponse, HttpStatus.OK);
+
+        }else {
+            return new ResponseEntity<>(accountResponse,HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
+
     }
 
 }

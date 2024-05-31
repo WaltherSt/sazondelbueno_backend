@@ -53,7 +53,6 @@ public class AuthService {
         if (account.getIsAdmin() == null) {
             account.setIsAdmin(false);
         }
-
         Account user = Account.builder()
                 .name(account.getName())
                 .password(passwordEncoder.encode(account.getPassword()))
@@ -61,13 +60,10 @@ public class AuthService {
                 .username(account.getUsername())
                 .isAdmin(account.getIsAdmin())
                 .build();
-
         repository.save(user);
-
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();
-
     }
 
 }

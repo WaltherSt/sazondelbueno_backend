@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sazondelbueno.web.Model.Difficulty;
+import sazondelbueno.web.Responses.recipe.dofficulty.DifficultyResponse;
 import sazondelbueno.web.Service.DifficultyService;
 
 import java.util.List;
@@ -47,13 +48,13 @@ public class DifficultyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<DifficultyResponse> delete(@PathVariable Long id) {
         try {
             service.delete(id);
-            return new ResponseEntity<>("Se ha eliminado el nivel de dificultad", HttpStatus.OK);
+            return new ResponseEntity<>(new DifficultyResponse(true,"difficultad agregada con exito"), HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new DifficultyResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
