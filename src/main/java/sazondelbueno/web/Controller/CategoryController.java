@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sazondelbueno.web.Model.Category;
+import sazondelbueno.web.Responses.recipe.category.CategoryResponse;
 import sazondelbueno.web.Service.CategoryService;
 
 import java.util.List;
@@ -47,12 +48,12 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponse> delete(@PathVariable Long id) {
         try {
             service.delete(id);
-            return new ResponseEntity<>("Categoria eliminada", HttpStatus.OK);
+            return new ResponseEntity<>(new CategoryResponse(true,"categoria eliminada"), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CategoryResponse(false,"No se pudo eliminar la categoria"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

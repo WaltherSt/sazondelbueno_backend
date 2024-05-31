@@ -3,7 +3,9 @@ package sazondelbueno.web.Service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sazondelbueno.web.Dto.AccountResponse;
 import sazondelbueno.web.Model.Account;
 import sazondelbueno.web.Repository.*;
 
@@ -12,7 +14,8 @@ import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-
+   @Autowired
+   private  PasswordEncoder passwordEncoder;
     @Autowired
     private AccountRepository repository;
     @Autowired
@@ -88,9 +91,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateById(Long id, Account account) {
-        Account c = repository.getReferenceById(id);
-        BeanUtils.copyProperties(account, c, "id");
-        return repository.save(c);
+    public AccountResponse updateById(Long id, Account account) {
+        try {
+            Account c = repository.getReferenceById(id);
+            c.setName(account.getName());
+            c.setPassword( passwordEncoder.encode(account.getPassword()) );
+            repository.save(c);
+            return new AccountResponse(true, "Cuenta actualizada");
+        } catch (Exception e) {
+            return new AccountResponse(false, "No se pudo actualizar la cuenta: " + e.getMessage());
+        }
     }
+
 }

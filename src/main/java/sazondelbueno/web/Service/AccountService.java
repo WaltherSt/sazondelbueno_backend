@@ -1,5 +1,6 @@
 package sazondelbueno.web.Service;
 
+import sazondelbueno.web.Dto.AccountResponse;
 import sazondelbueno.web.Model.Account;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface AccountService {
 
     boolean deleteById(Long id);
 
-    Account updateById(Long id, Account account);
+    AccountResponse updateById(Long id, Account account);
 }
