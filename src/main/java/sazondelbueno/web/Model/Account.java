@@ -35,7 +35,7 @@ public class Account implements UserDetails {
     private String password;
 
     @Column(name = "is_admin", nullable = false)
-    private Boolean isAdmin = false;
+    private Boolean isAdmin;
 
     @Column(name = "active")
     private Boolean active;
@@ -55,6 +55,7 @@ public class Account implements UserDetails {
         Calendar calendar = Calendar.getInstance(timeZone);
         this.createdAt = calendar.getTime();
         this.active = true;
+        this.isAdmin= false;
     }
 
 
