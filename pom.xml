@@ -14,7 +14,9 @@
 	<name>SazonDelBueno</name>
 	<description>Proyecto Sazon del bueno</description>
 	<properties>
-		<java.version>22</java.version>
+		<java.version>21</java.version>
+
+
 	</properties>
 	<dependencies>
 		<dependency>
