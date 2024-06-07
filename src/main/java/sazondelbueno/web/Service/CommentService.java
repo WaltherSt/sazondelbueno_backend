@@ -53,7 +53,7 @@ public class CommentService {
           });
         });
 
-      commentDTOList.reversed();
+
 
       return commentDTOList;
 
