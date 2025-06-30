@@ -1,6 +1,4 @@
 package sazondelbueno.web.Service;
-
-import com.amazonaws.services.dlm.model.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +9,7 @@ import sazondelbueno.web.Repository.CommentRepository;
 import sazondelbueno.web.Repository.FavoriteRepository;
 import sazondelbueno.web.Repository.RatingRepository;
 import sazondelbueno.web.Repository.RecipeRepository;
+import sazondelbueno.web.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

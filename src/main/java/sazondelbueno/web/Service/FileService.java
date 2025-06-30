@@ -1,7 +1,8 @@
 package sazondelbueno.web.Service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,19 +19,22 @@ import java.util.UUID;
 public class FileService {
 
     @Autowired
-    private AmazonS3 amazonS3;
+    private Storage storage;
 
-    @Value("${aws.s3.bucketName}")
+    @Value("${gcp.bucket.name}")
     private String bucketName;
 
-    @Value("${aws.s3.bucket.url}")
+    @Value("${gcp.bucket.url}")
     private String bucketUrl;
 
     public ApiResponse uploadFile(String key, MultipartFile file) throws IOException {
         String type = Objects.requireNonNull(file.getContentType()).split("/")[1];
-        String fileName = UUID.randomUUID().toString() +"."+ type;
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, file.getInputStream(), null);
-        amazonS3.putObject(putObjectRequest);
+        String fileName = UUID.randomUUID().toString() + "." + type;
+
+        BlobId blobId = BlobId.of(bucketName, fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
+        storage.create(blobInfo, file.getBytes());
+
         return new ApiResponse("File uploaded successfully!", bucketUrl + "/" + fileName);
     }
 }
